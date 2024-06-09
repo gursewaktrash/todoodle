@@ -2,4 +2,46 @@ html,
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Rubik', sans-serif;
+  background-color: #000000;
+}
+
+.container{
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+  margin: 30px auto;   /* Giving blank spcae using margins */
+}
+
+.title{
+  margin: 20px auto;
+  align-content: center;
+}
+
+input{
+  color: #432000;
+  background-color: #DCE1EB;
+  border: 0;
+  padding: 10px;    /* Make the input box fatter with padding */
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Rubik', sans-serif;
+  margin: 20px 0;
+}
+
+
+button{
+  color: #FFFFFF;
+  background-color: #94B3FC;
+  border: 0;
+  padding: 8px;    /* Make the input box fatter with padding */
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Rubik', sans-serif;
+
 }
