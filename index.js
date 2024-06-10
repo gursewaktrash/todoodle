@@ -66,7 +66,14 @@ function clearInputField( ){
     inputField.value = ""
 }
 
-//Function to create a new <li> item with the inputvalue to the todoodle-list <ul>
+// Function to create a new <li> item with the inputvalue in the todoodle-list <ul>
 function addItemsToTodoodleList(inputvalue) {
-    todoodlelistItems.innerHTML +=  `<li>${inputvalue}</li>`
-}
+    const li = document.createElement("li");
+    li.textContent = inputvalue;
+    todoodlelistItems.appendChild(li);
+  
+    const span = document.createElement("span");
+    span.innerHTML = "\u00d7";
+    li.appendChild(span);
+  
+  }
