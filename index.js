@@ -25,38 +25,41 @@ addbutton.addEventListener("click", function () {
   push(todoodleListInDB, inputvalue);
 
   //Log the value from input to see if click button works
-  console.log(inputvalue);
+  console.log("InputValueLog: " + inputvalue);
 
   //Clear input field after add button clicked
   clearInputField()
 
-  //Call the function , make sure to pass the inputvalue to add to list
-  addItemsToTodoodleList(inputvalue)
 });
 
 
 //Call the onValue function with TodoodleListInDB 
 onValue(todoodleListInDB, function(snapshot){
-    //Use console log to snaphot.val() to show all itenms inside the todoodleList in database
-    //Data will be shown in comsole log
-    console.log(snapshot.val())
 
     //Use Object.values() to convert snapshot.val() from Object to an Array. Create a variable to this.
     let itemsArray = Object.values(snapshot.val())
 
     //Log the items as an array
-    console.log(itemsArray)
+    console.log("Items in Array: " + itemsArray)
+
+    //Clear the list before the loop to avoid duplicate data featched
+    cleartodoodlelistItems()
 
     //Use for loop to get itemsArray and console log each item , Log them as 1 by 1 
     for(let i = 0; i <itemsArray.length; i++) {
 
         //Use addItemsToTodoodleList(inputvalue) function inside of the loop to add item to the list for each item
         addItemsToTodoodleList(itemsArray[i])
-        console.log(itemsArray[i])
+        console.log("ArrayItems : " +itemsArray[i])
     }
 
     
 })
+
+//Function to clear todoodleListDisplay
+function cleartodoodlelistItems(){
+    todoodlelistItems.innerHTML = ""
+}
 
 //Function to clear values
 function clearInputField( ){
