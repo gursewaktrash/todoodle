@@ -3,6 +3,7 @@ import {
   getDatabase,
   ref,
   push,
+  onValue
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const appSettings = {
@@ -29,11 +30,40 @@ addbutton.addEventListener("click", function () {
   //Clear input field after add button clicked
   clearInputField()
 
-  //Create a new <li> item with the inputvalue to the todoodle-list <ul>
-  todoodlelistItems.innerHTML +=  `<li>${inputvalue}</li>`
+  //Call the function , make sure to pass the inputvalue to add to list
+  addItemsToTodoodleList(inputvalue)
 });
 
 
+//Call the onValue function with TodoodleListInDB 
+onValue(todoodleListInDB, function(snapshot){
+    //Use console log to snaphot.val() to show all itenms inside the todoodleList in database
+    //Data will be shown in comsole log
+    console.log(snapshot.val())
+
+    //Use Object.values() to convert snapshot.val() from Object to an Array. Create a variable to this.
+    let itemsArray = Object.values(snapshot.val())
+
+    //Log the items as an array
+    console.log(itemsArray)
+
+    //Use for loop to get itemsArray and console log each item , Log them as 1 by 1 
+    for(let i = 0; i <itemsArray.length; i++) {
+
+        //Use addItemsToTodoodleList(inputvalue) function inside of the loop to add item to the list for each item
+        addItemsToTodoodleList(itemsArray[i])
+        console.log(itemsArray[i])
+    }
+
+    
+})
+
+//Function to clear values
 function clearInputField( ){
     inputField.value = ""
+}
+
+//Function to create a new <li> item with the inputvalue to the todoodle-list <ul>
+function addItemsToTodoodleList(inputvalue) {
+    todoodlelistItems.innerHTML +=  `<li>${inputvalue}</li>`
 }
