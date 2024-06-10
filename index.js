@@ -15,6 +15,7 @@ const todoodleListInDB = ref(database, "todoodleList");
 
 const inputField = document.getElementById("input-field");
 const addbutton = document.getElementById("add-button");
+const todoodlelistItems = document.getElementById("todoodle-list");
 
 addbutton.addEventListener("click", function () {
   let inputvalue = inputField.value;
@@ -24,4 +25,15 @@ addbutton.addEventListener("click", function () {
 
   //Log the value from input to see if click button works
   console.log(inputvalue);
+
+  //Clear input field after add button clicked
+  clearInputField()
+
+  //Create a new <li> item with the inputvalue to the todoodle-list <ul>
+  todoodlelistItems.innerHTML +=  `<li>${inputvalue}</li>`
 });
+
+
+function clearInputField( ){
+    inputField.value = ""
+}
