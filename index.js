@@ -35,24 +35,31 @@ addbutton.addEventListener("click", function () {
 
 //Call the onValue function with TodoodleListInDB
 onValue(todoodleListInDB, function (snapshot) {
-  //Use Object.values() to convert snapshot.val() from Object to an Array. Create a variable to this.
-  let itemsArray = Object.entries(snapshot.val());
 
-  //Clear the list before the loop to avoid duplicate data featched
-  cleartodoodlelistItems();
+  //If no data show text "No items here yet"
+  if (snapshot.exists()){
 
-  //Use for loop to get itemsArray and console log each item , Log them as 1 by 1
-  for (let i = 0; i < itemsArray.length; i++) {
-    let currentItem = itemsArray[i]
+        //Use Object.values() to convert snapshot.val() from Object to an Array. Create a variable to this.
+        let itemsArray = Object.entries(snapshot.val());
 
-    //Use addItemsToTodoodleList(inputvalue) function inside of the loop to add item to the list for each item
-    let currentItemID = currentItem[0]
-    let currentItemValue = currentItem[1]
+        //Clear the list before the loop to avoid duplicate data featched
+        cleartodoodlelistItems();
 
-    addItemsToTodoodleList(currentItem);
+        //Use for loop to get itemsArray and console log each item , Log them as 1 by 1
+        for (let i = 0; i < itemsArray.length; i++) {
+            let currentItem = itemsArray[i]
 
-    //Log the items 1 By 1
-    console.log("ArrayItems : " + currentItemValue);
+            //Use addItemsToTodoodleList(inputvalue) function inside of the loop to add item to the list for each item
+            let currentItemID = currentItem[0]
+            let currentItemValue = currentItem[1]
+
+            addItemsToTodoodleList(currentItem);
+
+            //Log the items 1 By 1
+            console.log("ArrayItems : " + currentItemValue);
+        }
+  } else {
+    todoodlelistItems.innerHTML =  `<li>${"No items to be found!"}</li>`
   }
   
 });
