@@ -3,7 +3,8 @@ import {
   getDatabase,
   ref,
   push,
-  onValue
+  onValue,
+  remove
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const appSettings = {
@@ -28,52 +29,75 @@ addbutton.addEventListener("click", function () {
   console.log("InputValueLog: " + inputvalue);
 
   //Clear input field after add button clicked
-  clearInputField()
-
+  clearInputField();
 });
 
 
-//Call the onValue function with TodoodleListInDB 
-onValue(todoodleListInDB, function(snapshot){
+//Call the onValue function with TodoodleListInDB
+onValue(todoodleListInDB, function (snapshot) {
+  //Use Object.values() to convert snapshot.val() from Object to an Array. Create a variable to this.
+  let itemsArray = Object.entries(snapshot.val());
 
-    //Use Object.values() to convert snapshot.val() from Object to an Array. Create a variable to this.
-    let itemsArray = Object.values(snapshot.val())
+  //Clear the list before the loop to avoid duplicate data featched
+  cleartodoodlelistItems();
 
-    //Log the items as an array
-    console.log("Items in Array: " + itemsArray)
+  //Use for loop to get itemsArray and console log each item , Log them as 1 by 1
+  for (let i = 0; i < itemsArray.length; i++) {
+    let currentItem = itemsArray[i]
 
-    //Clear the list before the loop to avoid duplicate data featched
-    cleartodoodlelistItems()
+    //Use addItemsToTodoodleList(inputvalue) function inside of the loop to add item to the list for each item
+    let currentItemID = currentItem[0]
+    let currentItemValue = currentItem[1]
 
-    //Use for loop to get itemsArray and console log each item , Log them as 1 by 1 
-    for(let i = 0; i <itemsArray.length; i++) {
+    addItemsToTodoodleList(currentItem);
 
-        //Use addItemsToTodoodleList(inputvalue) function inside of the loop to add item to the list for each item
-        addItemsToTodoodleList(itemsArray[i])
-        console.log("ArrayItems : " +itemsArray[i])
-    }
+    //Log the items 1 By 1
+    console.log("ArrayItems : " + currentItemValue);
+  }
+  
+});
 
-    
-})
 
 //Function to clear todoodleListDisplay
-function cleartodoodlelistItems(){
-    todoodlelistItems.innerHTML = ""
+function cleartodoodlelistItems() {
+  todoodlelistItems.innerHTML = "";
 }
+
 
 //Function to clear values
-function clearInputField( ){
-    inputField.value = ""
+function clearInputField() {
+  inputField.value = "";
 }
 
+
 // Function to create a new <li> item with the inputvalue in the todoodle-list <ul>
-function addItemsToTodoodleList(inputvalue) {
-    const li = document.createElement("li");
-    li.textContent = inputvalue;
-    todoodlelistItems.appendChild(li);
-  
+function addItemsToTodoodleList(item) {
+    let itemID = item[0]
+    let itemValue = item[1]
+
+    let newEl = document.createElement("li")
+    newEl.textContent = itemValue
+
+
+    // Create a span element
     const span = document.createElement("span");
     span.innerHTML = "\u00d7";
-    li.appendChild(span);
-  
-  }
+    newEl.appendChild(span);
+
+    //Event listener to delete item when span is clicked
+    span.addEventListener("click", function(){
+        let exactLocationofItemInDB = ref(database, `todoodleList/${itemID}`)
+        console.log("Deleted Item: " + itemValue  )
+        remove (exactLocationofItemInDB)
+    })
+
+
+     //Event listener for item clicked
+     newEl.addEventListener("click", function(){
+        console.log("Selected ItemId: " + itemID )
+        newEl.classList.toggle("checked");
+    })
+
+    todoodlelistItems.append(newEl)
+}
+
