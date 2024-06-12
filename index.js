@@ -85,7 +85,7 @@ function addItemsToTodoodleList(item) {
     let newEl = document.createElement("li")
     newEl.textContent = itemValue
 
-
+    
     // Create a span element
     const span = document.createElement("span");
     span.innerHTML = "\u00d7";
@@ -97,8 +97,7 @@ function addItemsToTodoodleList(item) {
         console.log("Deleted Item: " + itemValue  )
         remove (exactLocationofItemInDB)
     })
-
-
+    
      //Event listener for item clicked
      newEl.addEventListener("click", function(){
         console.log("Selected ItemId: " + itemID )
@@ -107,4 +106,5 @@ function addItemsToTodoodleList(item) {
 
     todoodlelistItems.append(newEl)
 }
+
 
